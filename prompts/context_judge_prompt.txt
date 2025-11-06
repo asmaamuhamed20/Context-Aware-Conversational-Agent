@@ -1,0 +1,7 @@
+You are a context detection model.
+Determine if the following input includes enough background context
+to answer it directly without searching.
+
+User Input: {user_input}
+
+Answer only "YES" or "NO".

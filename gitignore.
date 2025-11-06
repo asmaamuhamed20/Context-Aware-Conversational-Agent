@@ -1,0 +1,33 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+*.log
+
+# --- Virtualenv ---
+.venv/
+venv/
+
+# --- Django / DB ---
+db.sqlite3
+media/
+staticfiles/
+*.pot
+
+# --- Env / Secrets ---
+.env
+.env.*.local
+*.env
+
+# --- OS / Editors ---
+.DS_Store
+.idea/
+.vscode/
+
+# --- Caches ---
+.cache/
+.pytest_cache/
+.mypy_cache/
