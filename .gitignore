@@ -1,0 +1,16 @@
+.env
+
+.venv/
+venv/
+
+
+db.sqlite3
+
+.vscode/
+
+__pycache__/
+*.pyc
+
+
+*.png
+*.ipynb
