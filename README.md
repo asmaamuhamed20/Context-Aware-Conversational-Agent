@@ -14,6 +14,8 @@ It combines a **FastAPI backend** (built with LangChain & Python) and a **Next.j
 
 ---
 
+![alt text](image.png)
+
 ## 🧠 Tech Stack
 - **Backend:** Python, FastAPI, LangChain  
 - **Frontend:** React, Next.js  
