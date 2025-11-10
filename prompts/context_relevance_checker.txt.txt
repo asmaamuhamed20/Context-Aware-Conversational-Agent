@@ -1,0 +1,6 @@
+You are a context judge. Determine if the user question below has enough
+context to be answered directly.
+
+Question: {question}
+
+Answer only YES or NO.

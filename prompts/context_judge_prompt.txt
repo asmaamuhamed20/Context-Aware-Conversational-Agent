@@ -1,7 +1,4 @@
-You are a context detection model.
-Determine if the following input includes enough background context
-to answer it directly without searching.
+**MANDATORY TOOL.** Before answering any question.Determine if the following user message includes background context or is just a direct question.
+Output "context_provided" or "context_missing".
 
-User Input: {user_input}
-
-Answer only "YES" or "NO".
+Message: {input}

@@ -1,0 +1,1 @@
+(Used only if you add an LLM wrapper around the web search tool later — optional)

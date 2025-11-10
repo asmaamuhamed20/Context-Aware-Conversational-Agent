@@ -1,35 +1,33 @@
-from langchain_core.prompts import PromptTemplate
-from langchain.chains import LLMChain
-from langchain.tools import Tool
-from langchain_openai import ChatOpenAI
-import os
+# tools/context_splitter.py
+from langchain.tools import StructuredTool
+from langchain.prompts import PromptTemplate
+from pydantic import BaseModel, Field
 
-def load_context_splitter_tool():
-    template = """Split the following user input into two parts:
-1. BACKGROUND CONTEXT
-2. MAIN QUESTION
+class ContextSplitInput(BaseModel):
+    text: str = Field(..., description="The user's full message or context to analyze.")
 
-Return as:
-Context: ...
-Question: ...
+def build_context_splitter_tool(llm):
+    """
+    Build a tool that splits user input into background context and actual question.
+    """
 
-User Input: {user_input}
-"""
-    prompt = PromptTemplate(input_variables=["user_input"], template=template)
+    def split_context(text: str) -> str:
+        prompt_text = PromptTemplate.from_template(open("prompts/context_splitter_prompt.txt").read())
+        formatted = prompt_text.format(text=text)
+        response = llm.invoke(formatted)
 
-    llm = ChatOpenAI(
-        model="gpt-3.5-turbo",
-        openai_api_key=os.getenv("OPENAI_API_KEY"),
-        base_url=os.getenv("BASE_URL")
+        # Return plain text directly
+        return response.content if hasattr(response, "content") else str(response)
+
+    return StructuredTool.from_function(
+        func=split_context,
+        name="ContextSplitter",
+        description=(
+            "You should run this tool before checking for context presence or performing a web search, "
+            "It separates the input into two labeled parts: 'Background:' and 'Question:'. "
+            "After using this tool, you MUST combine both parts into one message in the format:\n\n"
+            "'Background: <background text>\\nQuestion: <question text>'\n\n"
+            "and pass that combined text as the input to the next tool, such as ContextPresenceJudge."
+        ),
+        args_schema=ContextSplitInput,
     )
-
-    chain = prompt | llm
-    func=lambda x: chain.invoke({"user_input": x}).content
-
-
-    tool = Tool(
-        name="Context Splitter",
-        func=lambda x: chain.run(user_input=x),
-        description="Splits user input into background context and question."
-    )
-    return tool

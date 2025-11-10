@@ -1,20 +1,31 @@
 from langchain.tools import Tool
-from langchain_core.prompts import PromptTemplate
-from langchain.chains import LLMChain
+from dotenv import load_dotenv
+import requests
+import os
 
-import wikipedia
+load_dotenv()
+tavily_api_key = os.getenv("TAVILY_API_KEY")
 
-def load_web_search_tool():
-    """Loads a web search tool using Wikipedia search."""
-    def search_wikipedia(query):
-        try:
-            return wikipedia.summary(query, sentences=3)
-        except Exception as e:
-            return f"No relevant data found. ({e})"
-
-    tool = Tool(
-        name="Web Search Tool",
-        func=search_wikipedia,
-        description="Retrieves relevant information using Wikipedia search."
+def web_search(query):
+    res = requests.post(
+        "https://api.tavily.com/search",
+        headers={"Authorization": f"Bearer {tavily_api_key}"},
+        json={"query": query}, 
+        timeout=10
     )
-    return tool
+    return res.json()["results"][0]["content"]
+
+
+WebSearchTool = Tool.from_function(
+    func=web_search,
+    name="WebSearchTool",
+    description=(
+        "Use this tool when the user's question lacks sufficient background context "
+        "or factual information that cannot be inferred from the conversation history. "
+        "This tool performs a real web search via the Tavily API to gather the most recent, "
+        "relevant, and factual data related to the query. "
+        "It should typically be used after the ContextPresenceJudge indicates that context "
+        "is missing or incomplete. "
+        "Return only the most relevant factual text content (not metadata or links)."
+    )
+)

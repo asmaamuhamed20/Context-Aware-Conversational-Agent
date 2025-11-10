@@ -1,33 +1,69 @@
-# --- Python ---
+# ======================================
+#  Contextia 
+# Backend (Python FastAPI) + Frontend (Next.js)
+# ======================================
+
+# --- Python / FastAPI ---
 __pycache__/
-*.py[cod]
+*.pyc
 *.pyo
 *.pyd
-*.egg-info/
-.eggs/
+*.pdb
 *.log
-
-# --- Virtualenv ---
-.venv/
-venv/
-
-# --- Django / DB ---
-db.sqlite3
-media/
-staticfiles/
-*.pot
-
-# --- Env / Secrets ---
+*.sqlite3
+*.db
+instance/
 .env
-.env.*.local
-*.env
-
-# --- OS / Editors ---
+.env.*
 .DS_Store
-.idea/
 .vscode/
-
-# --- Caches ---
+.idea/
+venv/
+.envrc
+*.egg-info/
+*.coverage
+coverage/
+htmlcov/
+pytest_cache/
 .cache/
-.pytest_cache/
-.mypy_cache/
+
+# --- LangChain / AI-related ---
+/memory/*
+/logs/*
+/outputs/*
+/checkpoints/*
+/runs/
+openai_api_key.txt
+langchain-debug.log
+
+# --- FastAPI build artifacts ---
+/dist/
+/build/
+/site/
+*.spec
+
+# --- Node / React / Next.js ---
+Frontend/node_modules/
+Frontend/.next/
+Frontend/out/
+Frontend/.turbo/
+Frontend/.swc/
+Frontend/.env.local
+Frontend/.env.development.local
+Frontend/.env.test.local
+Frontend/.env.production.local
+Frontend/.vercel
+Frontend/npm-debug.log*
+Frontend/yarn-debug.log*
+Frontend/yarn-error.log*
+
+# --- macOS / system files ---
+.DS_Store
+Thumbs.db
+
+# --- Editor backups ---
+*.bak
+*.swp
+*.swo
+*.tmp
+*~
